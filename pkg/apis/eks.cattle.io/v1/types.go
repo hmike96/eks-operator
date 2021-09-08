@@ -83,7 +83,7 @@ type NodeGroup struct {
 	LaunchTemplate       *LaunchTemplate    `json:"launchTemplate"`
 	RequestSpotInstances *bool              `json:"requestSpotInstances"`
 	SpotInstanceTypes    []*string          `json:"spotInstanceTypes" norman:"pointer"`
-	NodeRole      		 *string            `json:"nodeRole" norman:"pointer"`
+	NodeRole             *string            `json:"nodeRole" norman:"pointer"`
 }
 
 type LaunchTemplate struct {
