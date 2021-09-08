@@ -620,6 +620,9 @@ func (h *Handler) validateCreate(config *eksv1.EKSClusterConfig, eksService *eks
 			if ng.RequestSpotInstances == nil {
 				return fmt.Errorf(cannotBeNilError, "requestSpotInstances", *ng.NodegroupName, config.Name)
 			}
+			if ng.NodeRole == nil {
+				return fmt.Errorf(cannotBeNilError, "nodeRole", *ng.NodegroupName, config.Name)
+			}
 			if aws.BoolValue(ng.RequestSpotInstances) {
 				if len(ng.SpotInstanceTypes) == 0 {
 					return fmt.Errorf("nodegroup [%s] in cluster [%s]: spotInstanceTypes must be specified when requesting spot instances", *ng.NodegroupName, config.Name)
@@ -819,6 +822,7 @@ func BuildUpstreamClusterState(name, managedTemplateID string, clusterState *eks
 			Tags:                 ng.Nodegroup.Tags,
 			Version:              ng.Nodegroup.Version,
 			RequestSpotInstances: aws.Bool(aws.StringValue(ng.Nodegroup.CapacityType) == eks.CapacityTypesSpot),
+			NodeRole:             ng.Nodegroup.NodeRole,
 		}
 
 		if aws.BoolValue(ngToAdd.RequestSpotInstances) {
